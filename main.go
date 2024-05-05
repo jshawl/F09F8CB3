@@ -48,7 +48,8 @@ func entrypoint(path string, options Options) string {
 
 func main() {
 	all := flag.Bool("a", false, "")
-	options := Options{all: *all}
 	flag.Parse()
+
+	options := Options{all: *all}
 	fmt.Print(entrypoint(flag.Args()[0], options))
 }
