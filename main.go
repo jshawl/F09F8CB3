@@ -19,11 +19,13 @@ const (
 )
 
 func main() {
-	file1 := Node{Name: "file1"}
-	file2 := Node{Name: "file2"}
+	file1 := Node{Name: "file1", Type: File}
+	file2 := Node{Name: "file2", Type: File}
+	directory1 := Node{Name: "directory1", Type: Directory}
 	node := Node{
 		Name: ".",
-		Children: []*Node{&file1, &file2},
+		Children: []*Node{&file1, &file2, &directory1},
+		Type: Directory,
 	}
 	fmt.Print(render(node))
 }
@@ -31,8 +33,13 @@ func main() {
 func summary(numFiles int, numDirectories int) string {
 	directories := ""
 	files := fmt.Sprintf("%d files", numFiles)
-	if numFiles > 0 {
-		directories = fmt.Sprintf("%d directory", 1)
+
+	if numFiles == 0 {
+		numDirectories = 0
+	}
+	
+	if numDirectories == 1 {
+		directories = fmt.Sprintf("%d directory", numDirectories)
 	} else {
 		directories = fmt.Sprintf("%d directories", numDirectories)
 	}
@@ -55,8 +62,16 @@ func tree(node Node) string {
 }
 
 func render(node Node) string {
-	numFiles := len(node.Children)
-	numDirectories := len(node.Children)
+	numFiles := 0
+	numDirectories := 1
+	for i := 0; i < len(node.Children); i++ {
+      if node.Children[i].Type == File {
+		numFiles++
+	  }
+	  if node.Children[i].Type == Directory {
+		numDirectories++
+	  }
+	}
 
 	return fmt.Sprintf(
 		"%s\n%s\n%s\n", 
