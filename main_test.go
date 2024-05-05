@@ -3,9 +3,13 @@ package main
 import (
 	"testing"
 )
-func TestRender(t *testing.T){
-	expected := "./"
-	actual := render()
+
+func TestRenderEmptyDirectory(t *testing.T){
+	expected := `.
+
+0 directories, 0 files
+`
+	actual := render(Tree{})
 	if actual != expected {
 		t.Errorf("Expected: %s, Actual: %s", expected, actual)
 	}
