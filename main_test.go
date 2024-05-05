@@ -4,12 +4,12 @@ import (
 	"testing"
 )
 
-func TestRenderEmptyDirectory(t *testing.T){
+func TestRenderEmptyDirectory(t *testing.T) {
 	expected := `.
 
 0 directories, 0 files
 `
-    node := Node{
+	node := Node{
 		Name: ".",
 		Type: Directory,
 	}
@@ -26,14 +26,14 @@ func TestRenderDirectoryWithFiles(t *testing.T) {
 
 1 directory, 2 files
 `
-    file1 := Node{Name: "file1", Type: File}
+	file1 := Node{Name: "file1", Type: File}
 	file2 := Node{Name: "file2", Type: File}
 	node := Node{
-		Name: ".",
+		Name:     ".",
 		Children: []*Node{&file1, &file2},
-		Type: Directory,
+		Type:     Directory,
 	}
-    actual := render(node)
+	actual := render(node)
 	if actual != expected {
 		t.Errorf("Expected:\n%s, Actual:\n%s", expected, actual)
 	}
