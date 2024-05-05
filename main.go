@@ -28,16 +28,21 @@ func main() {
 	fmt.Print(render(node))
 }
 
-func render(node Node) string {
-	numFiles := len(node.Children)
+func summary(numFiles int, numDirectories int) string {
 	directories := ""
+	files := fmt.Sprintf("%d files", numFiles)
 	if numFiles > 0 {
 		directories = fmt.Sprintf("%d directory", 1)
 	} else {
-		directories = fmt.Sprintf("%d directories", 0)
+		directories = fmt.Sprintf("%d directories", numDirectories)
 	}
-	var list strings.Builder
+	return fmt.Sprintf("%s, %s", directories, files)
+}
 
+func render(node Node) string {
+	numFiles := len(node.Children)
+	numDirectories := len(node.Children)
+	var list strings.Builder
     for i := 0; i < numFiles; i++ {
 		if i == numFiles - 1 {
 			list.WriteString("└── ")
@@ -47,7 +52,11 @@ func render(node Node) string {
         list.WriteString(node.Children[i].Name)
 		list.WriteString("\n")
     }
-
 	name := node.Name
-	return fmt.Sprintf("%s\n%s\n%s, %d files\n", name, list.String(), directories, numFiles)
+	return fmt.Sprintf(
+		"%s\n%s\n%s\n", 
+		name, 
+		list.String(), 
+		summary(numFiles, numDirectories),
+	)
 }
