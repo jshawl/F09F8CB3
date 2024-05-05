@@ -41,6 +41,9 @@ func tree(node Node, depth int, counter *Counter) string {
 	numFiles := len(node.Children)
 
 	slices.SortFunc(node.Children, func(a, b *Node) int {
+		if strings.HasPrefix(b.Name, ".") {
+			return cmp.Compare(a.Name, b.Name)
+		}
 		return cmp.Compare(a.Type, b.Type)
 	})
 
