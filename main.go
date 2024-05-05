@@ -1,11 +1,67 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-func main() {
-	fmt.Print(render())
+type NodeType string
+
+type Node struct {
+  Children []*Node
+  Name string
+  Type NodeType
 }
 
-func render() string {
-	return "./"
+const (
+	File   NodeType = "file"
+	Directory NodeType = "directory"
+)
+
+func main() {
+	file1 := Node{Name: "file1"}
+	file2 := Node{Name: "file2"}
+	node := Node{
+		Name: ".",
+		Children: []*Node{&file1, &file2},
+	}
+	fmt.Print(render(node))
+}
+
+func summary(numFiles int, numDirectories int) string {
+	directories := ""
+	files := fmt.Sprintf("%d files", numFiles)
+	if numFiles > 0 {
+		directories = fmt.Sprintf("%d directory", 1)
+	} else {
+		directories = fmt.Sprintf("%d directories", numDirectories)
+	}
+	return fmt.Sprintf("%s, %s", directories, files)
+}
+
+func tree(node Node) string {
+	numFiles := len(node.Children)
+	var list strings.Builder
+    for i := 0; i < numFiles; i++ {
+		if i == numFiles - 1 {
+			list.WriteString("└── ")
+		} else {
+			list.WriteString("├── ")
+		}
+        list.WriteString(node.Children[i].Name)
+		list.WriteString("\n")
+    }
+	return list.String()
+}
+
+func render(node Node) string {
+	numFiles := len(node.Children)
+	numDirectories := len(node.Children)
+
+	return fmt.Sprintf(
+		"%s\n%s\n%s\n", 
+		node.Name, 
+		tree(node), 
+		summary(numFiles, numDirectories),
+	)
 }
