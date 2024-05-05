@@ -26,18 +26,7 @@ type Counter struct {
 }
 
 func main() {
-	file1 := Node{Name: "file1", Type: File}
-	file2 := Node{Name: "file2", Type: File}
-	file3 := Node{Name: "file3", Type: File}
-	file4 := Node{Name: "file4", Type: File}
-	directory2 := Node{Name: "directory2", Type: Directory, Children: []*Node{&file4}}
-	directory1 := Node{Name: "directory1", Type: Directory, Children: []*Node{&file3, &directory2}}
-	node := Node{
-		Name:     ".",
-		Children: []*Node{&file1, &file2, &directory1},
-		Type:     Directory,
-	}
-	fmt.Print(render(node))
+
 }
 
 func summary(numDirectories int, numFiles int) string {
