@@ -39,9 +39,8 @@ func summary(numFiles int, numDirectories int) string {
 	return fmt.Sprintf("%s, %s", directories, files)
 }
 
-func render(node Node) string {
+func tree(node Node) string {
 	numFiles := len(node.Children)
-	numDirectories := len(node.Children)
 	var list strings.Builder
     for i := 0; i < numFiles; i++ {
 		if i == numFiles - 1 {
@@ -52,11 +51,17 @@ func render(node Node) string {
         list.WriteString(node.Children[i].Name)
 		list.WriteString("\n")
     }
-	name := node.Name
+	return list.String()
+}
+
+func render(node Node) string {
+	numFiles := len(node.Children)
+	numDirectories := len(node.Children)
+
 	return fmt.Sprintf(
 		"%s\n%s\n%s\n", 
-		name, 
-		list.String(), 
+		node.Name, 
+		tree(node), 
 		summary(numFiles, numDirectories),
 	)
 }
