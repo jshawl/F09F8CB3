@@ -1,7 +1,9 @@
 package main
 
 import (
+	"cmp"
 	"fmt"
+	"slices"
 	"strings"
 )
 
@@ -48,6 +50,11 @@ func summary(numFiles int, numDirectories int) string {
 
 func tree(node Node) string {
 	numFiles := len(node.Children)
+
+	slices.SortFunc(node.Children, func(a, b *Node) int {
+		return cmp.Compare(a.Type, b.Type)
+	})
+
 	var list strings.Builder
 	for i := 0; i < numFiles; i++ {
 		if i == numFiles-1 {
